@@ -1,0 +1,43 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+import cv2
+
+def rotation(image,angle):
+    img = image     
+    plt.subplot(1,2,1)
+    plt.imshow(img,cmap='gray')
+
+    width=img.shape[0]
+    hight=img.shape[1]
+
+    angle = angle
+    x = width//2
+    y = hight//2
+
+    ForwardMap=np.zeros((width,hight),dtype="uint8")
+    BackwardMap=ForwardMap
+
+    for i in range(width):
+        for j in range( hight):
+            # forward mapping
+            for_x = (i - x) * math.cos( angle*(math.pi/180)) - (j -  y) * math.sin( angle*(math.pi/180)) +  x
+            for_y = (i -  x) * math.sin( angle*(math.pi/180)) + (j -  y) * math.cos( angle*(math.pi/180)) +  y
+            for_x = int(for_x)
+            for_y = int(for_y)
+            # backward mapping should change the forward mapping to the original image
+    #         back_x = (i -  x) * math.cos( angle*(math.pi/180)) + (j -  y) * math.sin( angle*(math.pi/180)) +  x
+    #         back_y = -(i -  x) * math.sin( angle*(math.pi/180)) + (j -  y) * math.cos( angle*(math.pi/180)) +  x
+    #         back_x = int(back_x)
+    #         back_y = int(back_y)
+            if for_x in range(width) and for_y in range(hight):
+                ForwardMap[i, j] = img[for_x, for_y]
+
+            else:
+                pass
+    plt.subplot(1,2,2)
+    plt.imshow(ForwardMap,cmap='gray')
+    
+img = cv2.imread('a4.png',0)  # Load an color image in grayscale
+angle=45
+rotation(img,angle)
