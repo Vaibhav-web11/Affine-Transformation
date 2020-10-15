@@ -1,0 +1,32 @@
+import matplotlib.pyplot as plt
+import numpy as np
+import math
+import cv2
+
+def Translate(image,a,b):
+    img = image     
+    plt.subplot(1,2,1)
+    plt.imshow(img,cmap="gray")
+
+    width=img.shape[0]
+    hight=img.shape[1]
+
+    ForwardMap=np.zeros((width,hight),dtype="uint8")
+
+    for i in range(width):
+        for j in range( hight):
+            # forward mapping
+            x = i+a
+            y = j+b
+            if x in range(width) and y in range(hight):
+                ForwardMap[i, j] = img[x, y]
+
+            else:
+                pass
+    plt.subplot(1,2,2)
+    plt.imshow(ForwardMap,cmap="gray")
+    
+img = cv2.imread('a4.png',0)  # Load an color image in grayscale
+a=-150        #move in x direction
+b=-150      #move in y direction
+Translate(img,a,b)
